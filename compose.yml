@@ -2,8 +2,7 @@ version: "3.9"
 
 services:
   devopsdb:
-    image: shaikmustafa/deepika:db
-    ports:
+    image: abdulfassi/login:db
       - "3306:3306"
     deploy:
       replicas: 1
@@ -11,7 +10,7 @@ services:
       - mynetwork
 
   application:
-    image: shaikmustafa/deepika:app
+    image: abdulfassi/login:app
     ports:
       - "1111:8080"
     deploy:
