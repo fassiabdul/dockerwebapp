@@ -3,6 +3,7 @@ version: "3.9"
 services:
   devopsdb:
     image: abdulfassi/login:db
+    ports:
       - "3306:3306"
     deploy:
       replicas: 1
