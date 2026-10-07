@@ -5,8 +5,6 @@ services:
     image: abdulfassi/task:db
     ports:
       - "3306:3306"
-    volumes:
-      - task-volume:/var/lib/mysql
     deploy:
       replicas: 1
     networks:
@@ -22,8 +20,6 @@ services:
       - devopsdb
     networks:
       - mynetwork
-volumes:
-  task-volume:
   
 networks:
   mynetwork:
