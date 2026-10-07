@@ -1,90 +1,26 @@
 version: "3.9"
 
 services:
-
   devopsdb:
     image: abdulfassi/task:db
-
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: devops
-    volumes:
-      - task-volume:/var/lib/mysql
-
-    networks:
-      - mynetwork
-
     ports:
       - "3306:3306"
-
     deploy:
       replicas: 1
-
-      placement:
-        constraints:
-          - node.hostname == worker
-
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s
-
-      update_config:
-        parallelism: 1
-        delay: 10s
-        order: stop-first
-
-      rollback_config:
-        parallelism: 1
-        delay: 10s
-        order: stop-first
-
+    networks:
+      - mynetwork
 
   application:
     image: abdulfassi/task:app
-
-    environment:
-      DB_HOST: devopsdb
-      DB_PORT: 3306
-      DB_NAME: devops
-      DB_USER: root
-      DB_PASSWORD: root
-
-    networks:
-      - mynetwork
-
     ports:
       - "1111:8080"
-
-    depends_on:
-      - devopsdb
-
     deploy:
       replicas: 1
-
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s
-
-      update_config:
-        parallelism: 1
-        delay: 10s
-        order: start-first
-
-      rollback_config:
-        parallelism: 1
-        delay: 10s
-        order: stop-first
-
-
+    depends_on:
+      - devopsdb
+    networks:
+      - mynetwork
+  
 networks:
   mynetwork:
     driver: overlay
-    attachable: true
-
-
-volumes:
-  task-volume:
